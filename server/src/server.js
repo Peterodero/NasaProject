@@ -6,7 +6,7 @@ const app = require('./app');
 const {loadPlanetsData} = require('./models/planets.model'); 
 const {loadLaunchData} = require('./models/launches.model');
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000; 
 
 const MONGO_URL = 'mongodb+srv://peterodero450:M9CV4ZseableRewu@nasacluster.rt2tf.mongodb.net/?retryWrites=true&w=majority&appName=NASACluster'
 
