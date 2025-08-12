@@ -19,7 +19,7 @@ const launch = {
 	success: true //success
 };
 
-// saveLaunch(launch)
+saveLaunch(launch)
 
 const SPACE_API_URL = 'https://api.spacexdata.com/v4/launches/query'
 
@@ -59,17 +59,15 @@ async function loadLaunchData() {
 			launchDate: launchDoc['date_local'],
 			upcoming: launchDoc['upcoming'],
 			success: launchDoc['success'],
-			customers,
+			customers: customers,
 		};
 		
 		console.log(`${launch.flightNumber} ${launch.mission}`)
 	}
 }
 
-// launches.set(launch.flightNumber, launch)
 
 async function existLaunchWithId(launchId){
-	// return launches.has(launchId);
 	return await launchesDatabase.findOne({
 		flightNumber: launchId
 	})
@@ -86,9 +84,7 @@ async function getLatestFlightNumber(){
 	return latestLaunch.flightNumber;
 }
 
-async function getAllLaunches(){
-	//return Array.from(launches.values());
-	
+async function getAllLaunches(){	
 	return await launchesDatabase.find({},{
 		'_id':0,'__v':0
 	})
@@ -126,16 +122,6 @@ async function addNewLaunch(launch){
 	await saveLaunch(newLaunch);
 }
 
-// function addNewLaunch(launch){
-// 	latestFlightNumber++;
-// 	launches.set(latestFlightNumber, Object.assign(launch, {
-// 		flightNumber:latestFlightNumber,
-// 		upcoming: true,
-// 		success:true,
-// 		customers: ['ZTM','NASA']
-// 	}))
-// }
-
 async function abortLaunchById(launchId){
 	
 	const aborted = await launchesDatabase.updateOne({
@@ -145,12 +131,8 @@ async function abortLaunchById(launchId){
 		success:false
 	})
 	
-	return aborted.ok === 1 && aborted.nModified === 1;
+	return aborted.acknowledged === true && aborted.modifiedCount === 1;
 	
-	// const aborted = launches.get(launchId);
-	// aborted.upcoming = false
-	// aborted.success  = false
-	// return aborted;
 }
 
 module.exports = {
